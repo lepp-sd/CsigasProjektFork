@@ -1,5 +1,8 @@
 package modell;
 
+import java.util.Objects;
+import main.Szinek;
+
 public class Csiga {
     private static final char UT_SZIMPLA = '-';
     private static final char UT_DUPLA = '=';
@@ -22,24 +25,35 @@ public class Csiga {
         return ABRA_KUKAC_JEL;
     }
     
-    private static final String RESET = "\u001B[0m";
-    private static final String RED = "\u001B[31m";
-    private static final String BLUE = "\u001B[34m";
-    private static final String GREEN = "\u001B[32m";
+    // private static final String RESET = "\u001B[0m";
+    // private static final String RED = "\u001B[31m";
+    // private static final String BLUE = "\u001B[34m";
+    // private static final String GREEN = "\u001B[32m";
     
-    private String szin;
+    //private String szin;
+    private Szinek szin;
     private String szinKod;
     private String megtettUt;
     private boolean gyorsito;
 
-    public Csiga(String szin) {
+    public Csiga() {
+        this(Szinek.PIROS, false);
+    }
+    
+    public Csiga(Szinek szin) {
+        this(szin, false);
+    }
+    
+    public Csiga(Szinek szin, boolean gyorsito) {
         this.szin = szin;
-        setSzinKod();
-        megtettUt = "";
-        gyorsito = false;
+        //this.szinKod = szinKod;
+        //setSzinKod();
+        szinKod = szin.getAnsiKod();
+        this.megtettUt = "";
+        this.gyorsito = gyorsito;
     }
 
-    public String getSzin() {
+    public Szinek getSzin() {
         return szin;
     }
 
@@ -59,23 +73,10 @@ public class Csiga {
         this.gyorsito = gyorsito;
     }
     
-    private void setSzinKod() {
-        switch(szin){
-            default: 
-                szinKod = RED;
-                break;
-            case "piros":
-                szinKod = RED;
-                break;
-            case "kék":
-                szinKod = BLUE;
-                break;
-            case "zöld":
-                szinKod = GREEN;
-                break;
-        }
+   private void setSzinKod() {
+       this.szinKod = (this.szin != null) ? this.szin.getAnsiKod() : "\u001B[31m";
     }
-    
+   
     public void megy(){
         int tav = (int)(Math.random()*4);
         tav = gyorsito ? tav*2 : tav;
@@ -84,6 +85,33 @@ public class Csiga {
         for (int i = 0; i < tav; i++) {
             megtettUt += jel;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Csiga{" + "szin=" + szin + ", megtettUt=" + megtettUt + ", gyorsito=" + gyorsito + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.szin);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Csiga other = (Csiga) obj;
+        return Objects.equals(this.szin, other.szin);
     }
     
 }

@@ -19,9 +19,10 @@ public class CsigaVerseny {
     public CsigaVerseny() {
         csigak = new Csiga[3];
         palya = new String[csigak.length];
-        csigak[0] = new Csiga("piros");
-        csigak[1] = new Csiga("kék");
-        csigak[2] = new Csiga("zöld");
+        csigak[0] = new Csiga(Szinek.SARGA);
+        
+        csigak[1] = new Csiga(Szinek.KEK);
+        csigak[2] = new Csiga(Szinek.ZOLD);
         indit();
     }
 
